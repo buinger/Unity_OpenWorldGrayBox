@@ -6,11 +6,15 @@ public class Player : MonoBehaviour
 {
     //************************************所有字段*****************************************
     public static Player Instance;
+
+
+    public bool isAi = true;
+
     //设置跑力道
     [Range(1, 1000)]
     public float runForce = 20;
     //设置走力道
-    public float walkForce;
+    private float walkForce;
     //设置跳跃力道
     [Range(0, 100)]
     public float JumpForce = 100;
@@ -29,6 +33,7 @@ public class Player : MonoBehaviour
     //角色零件
     Transform parts;
     //镜头参考
+    [HideInInspector]
     public Transform cameraTemp;
 
     //*************************************************************************************
@@ -36,6 +41,8 @@ public class Player : MonoBehaviour
     // 一级初始化
     void Awake()
     {
+        hValue = Random.Range(-1f, 1f);
+        vValue = Random.Range(-1f, 1f);
         // couldjump = false;
         walkForce = runForce / 2;
         parts = transform.Find("Parts");
@@ -48,20 +55,34 @@ public class Player : MonoBehaviour
         Instance = this;
     }
 
+    //ai相关字段
+    private float aiJumpCd = 5;
+    private float aiJumpPassTime = 0;
     // 一级刷新
     void FixedUpdate()
     {
 
+        if (isAi)
+        {
 
-        DoingByPlayerStates(nowStates);
-        MouseCamera();
+            AiAction();
+        }
+        else
+        {
+            MouseCamera();
+            JudgeNowState();
+            DoingByPlayerStates(nowStates);
+        }
+
+
+
     }
 
     //二级刷新
-    private void Update()
-    {
-        JudgeNowState();
-    }
+    //private void Update()
+    //{
+
+    //}
 
 
 
@@ -139,7 +160,7 @@ public class Player : MonoBehaviour
     }
 
 
-
+    //public float cameraAddMaxY = 5f;
     //镜头函数
     public virtual void MouseCamera()
     {
@@ -148,14 +169,23 @@ public class Player : MonoBehaviour
         if (x != 0 || y != 0)
         {
             cameraTemp.RotateAround(transform.position, transform.up, mouseSpeed * x * Time.fixedDeltaTime);
+
+            //Quaternion oringinalRotation = cameraTemp.rotation;
+            //Vector3 oringinalPos = cameraTemp.position;
             cameraTemp.RotateAround(transform.position, -cameraTemp.right, mouseSpeed * y * Time.fixedDeltaTime);
+            //if ( cameraTemp.position.y>transform.position.y+ 8.5f || cameraTemp.position.y<transform.position.y-1)
+            //{
+            //    cameraTemp.rotation = oringinalRotation;
+            //    cameraTemp.position = oringinalPos;
+            //}
+
         }
 
     }
 
 
 
-    //行为函数
+    //可控行为函数**************************************
     public virtual void Idel()
     {
 
@@ -180,16 +210,16 @@ public class Player : MonoBehaviour
 
 
         //step4:看向要移动的方向，给角色施加移动的力道
-        Vector3 forceTemp = forceForward * vValue * Time.deltaTime * runForce + forceRight * hValue * Time.deltaTime * runForce;
+        Vector3 forceTemp = forceForward * vValue * Time.fixedDeltaTime * runForce + forceRight * hValue * Time.fixedDeltaTime * runForce;
 
         parts.LookAt(transform.position + new Vector3(-forceTemp.z, forceTemp.y, forceTemp.x));
 
 
         //施加力移动
-       
-         rigidBody.velocity = new Vector3(forceTemp.x, rigidBody.velocity.y, forceTemp.z);
 
-       
+        rigidBody.velocity = new Vector3(forceTemp.x, rigidBody.velocity.y, forceTemp.z);
+
+
         //直接控制坐标移动
         //transform.position = transform.position+forceTemp/100;
     }
@@ -201,49 +231,30 @@ public class Player : MonoBehaviour
 
         if (ff.couldJump == true)
         {
-
-
-            
             rigidBody.velocity = new Vector3(rigidBody.velocity.x, JumpForce * Time.deltaTime, rigidBody.velocity.z) * JumpForce;
-           
         }
-        
-
-
 
     }
-    //bool could2JumpForce = false;
 
-
-    //private void OnCollisionStay(Collision collision)
-    //{
-
-
-    //    if (collision.transform.tag == "ground")
-    //    {
-    //        if (collision.transform.position.y>)
-    //        {
-
-
-    //        }
-           
-    //    }
+    //ai行为函数*****************************
+    public virtual void AiAction()
+    {
+       
         
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.transform.tag == "ground")
-    //    {
-
-    //            couldjump = false;
-
-
-    //    }
-    //}
+        aiJumpPassTime += Time.fixedDeltaTime;
+        if (aiJumpPassTime >= aiJumpCd)
+        {
+            Jump();
+            aiJumpPassTime = 0;
+            hValue = Random.Range(-1f, 1f);
+            vValue = Random.Range(-1f, 1f);
 
 
+            aiJumpCd= Random.Range(1, aiJumpCd);
+        }
 
 
+        Run();
+    }
 
 }

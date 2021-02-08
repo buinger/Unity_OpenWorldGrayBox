@@ -19,17 +19,20 @@ public class FootFlag : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.transform.tag=="ground")
+        if (other.transform.tag != "player")
         {
             couldJump = true;
         }
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.tag == "ground")
+        if (other.transform.tag != "player")
         {
             couldJump = false;
         }
+
+
     }
 }
