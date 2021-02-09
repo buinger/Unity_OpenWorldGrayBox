@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\MyCamera.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\机关\Switch.cs" />
+    <Compile Include="Assets\Scripts\空间生成算写\AutoMake.cs" />
     <None Include="Assets\Materials\NewSurfaceShader.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>G:/MyPro/UnityPro/SickDog/SickDog-OpenWorld/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
