@@ -63,11 +63,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editors\GameObjectAct.cs" />
-    <Compile Include="Assets\Scripts\FootFlag.cs" />
-    <Compile Include="Assets\Scripts\MyCamera.cs" />
-    <Compile Include="Assets\Scripts\Player.cs" />
     <Compile Include="Assets\Scripts\机关\Switch.cs" />
-    <Compile Include="Assets\Scripts\空间生成算写\AutoMake.cs" />
+    <Compile Include="Assets\Scripts\自动布局\AutoMake.cs" />
+    <Compile Include="Assets\Scripts\角色\Driver.cs" />
+    <Compile Include="Assets\Scripts\角色\Player.cs" />
+    <Compile Include="Assets\Scripts\角色\配件\FootFlag.cs" />
+    <Compile Include="Assets\Scripts\角色\配件\SphereTrigger.cs" />
+    <Compile Include="Assets\Scripts\镜头\MyCamera.cs" />
     <None Include="Assets\Materials\NewSurfaceShader.shader" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>G:/MyPro/UnityPro/SickDog/SickDog-OpenWorld/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

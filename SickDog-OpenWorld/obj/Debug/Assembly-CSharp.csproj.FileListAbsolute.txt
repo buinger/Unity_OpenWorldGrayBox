@@ -1,0 +1,2 @@
+G:\MyPro\UnityPro\SickDog\SickDog-OpenWorld\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+G:\MyPro\UnityPro\SickDog\SickDog-OpenWorld\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache

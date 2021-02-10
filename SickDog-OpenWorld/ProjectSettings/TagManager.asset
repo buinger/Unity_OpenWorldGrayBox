@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ground
   - player
+  - car
   layers:
   - Default
   - TransparentFX
